@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum Category { delivery, fashion, tech, hobby, beauty }
 
 extension CategoryLabel on Category {
@@ -13,6 +15,36 @@ extension CategoryLabel on Category {
         return '취미·게임';
       case Category.beauty:
         return '뷰티';
+    }
+  }
+
+  String get emoji {
+    switch (this) {
+      case Category.delivery:
+        return '🍔';
+      case Category.fashion:
+        return '👗';
+      case Category.tech:
+        return '💻';
+      case Category.hobby:
+        return '🎮';
+      case Category.beauty:
+        return '💄';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case Category.delivery:
+        return const Color(0xFFFFB37B);
+      case Category.fashion:
+        return const Color(0xFFFF9BC0);
+      case Category.tech:
+        return const Color(0xFF7FB8FF);
+      case Category.hobby:
+        return const Color(0xFF9B8CFF);
+      case Category.beauty:
+        return const Color(0xFF5FDDB0);
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import '../models/income_settings.dart';
 import '../models/shopping_item.dart';
+import 'gamification.dart';
 import 'storage_service.dart';
 
 class AppState extends ChangeNotifier {
@@ -59,4 +60,27 @@ class AppState extends ChangeNotifier {
 
   int get savedCount =>
       items.where((e) => e.status == ItemStatus.saved).length;
+
+  int get currentStreak {
+    var streak = 0;
+    for (final item in resolvedItems) {
+      if (item.status == ItemStatus.saved) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
+
+  LevelInfo get levelInfo => LevelSystem.forTotalSaved(totalSaved);
+
+  List<BadgeDef> get unlockedBadges {
+    final stats = BadgeStats(
+      savedCount: savedCount,
+      totalSaved: totalSaved,
+      streak: currentStreak,
+    );
+    return allBadges.where((b) => b.isUnlocked(stats)).toList();
+  }
 }

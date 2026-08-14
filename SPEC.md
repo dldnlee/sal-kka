@@ -114,3 +114,17 @@ When the timer ends (or when the user reviews their vault):
   * Secondary: `지름신 강림... 그냥 살래 💸`
   * Share: `친구한테 살까 말까 물어보기 💬`
 * **Success Message:** `🎉 대단해요! [150,000원]을 방어했습니다!`
+
+---
+
+## 6. Visual Design & Gamification
+
+Visual direction is based on a Meditation app UI kit reference (soft lavender-purple primary, mint secondary, cream "day" backgrounds, deep indigo "night/focus" backgrounds, pill-shaped buttons, rounded illustrated cards).
+
+* **입력 / 팩폭 리포트 (light, cream):** rounded soft-shadow cards, pill segmented income toggle, colorful category chips (topic-grid style), 3-card colorful stat grid for the reality-check metrics.
+* **살까 보관소 (dark, "focus mode"):** deep indigo background with scattered stars, dark cards, circular countdown ring per item (progress = time elapsed / 72h) instead of plain digital text.
+* **정산 (light, cheerful "home" style):** gradient hero card with total saved + level progress bar, streak counter, and a badge grid.
+* **Gamification layer:**
+  * *Levels* — title/emoji tier unlocked by cumulative amount saved (지름신 새내기 → 짠테크 입문자 → 절약 스킬러 → 냉철한 소비요정 → 살까 마스터), shown with a progress bar to the next tier.
+  * *Streaks* — consecutive "참았다" resolutions in a row (resets on "샀다"), shown as a flame-icon stat.
+  * *Badges* — milestone achievements (첫 승리, 3/7연속 참기, 10만원/50만원 세이버, 살까 마스터) shown unlocked (colorful) vs. locked (grayscale outline).

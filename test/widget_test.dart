@@ -9,7 +9,7 @@ void main() {
     await tester.pumpWidget(const SalKkaApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('살까?'), findsOneWidget);
+    expect(find.text('오늘은 뭘 참아볼까요?'), findsOneWidget);
     expect(find.text('팩폭 리포트 보기 🚨'), findsOneWidget);
   });
 }

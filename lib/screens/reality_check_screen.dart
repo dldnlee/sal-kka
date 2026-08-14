@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import '../models/shopping_item.dart';
 import '../services/app_state.dart';
+import '../theme/app_theme.dart';
 import '../utils/calc.dart';
 
 class RealityCheckScreen extends StatelessWidget {
@@ -78,56 +79,83 @@ class RealityCheckScreen extends StatelessWidget {
     final reality = computeReality(price, hourlyWage);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('🚨 팩트 폭격 리포트 🚨')),
+      appBar: AppBar(title: const Text('🚨 팩트 폭격 리포트')),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 '"$name (${formatKoreanUnit(price)})을 사려면..."',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
+                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  Expanded(
+                    child: _StatCard(
+                      emoji: '⏰',
+                      color: const Color(0xFF7FB8FF),
+                      label: '내 노동 시간',
+                      value: '${reality.hours}시간\n${reality.minutes}분',
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _StatCard(
+                      emoji: '🍗',
+                      color: const Color(0xFFFFB37B),
+                      label: '치킨 지수',
+                      value: '${reality.chickenCount}마리',
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _StatCard(
+                      emoji: '☕',
+                      color: AppColors.mint,
+                      label: '스타벅스',
+                      value: '${reality.coffeeCount}잔',
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
-              _MetricRow(
-                emoji: '⏰',
-                label: '내 노동 시간',
-                value: '${reality.hours}시간 ${reality.minutes}분 일해야 함',
-              ),
-              _MetricRow(
-                emoji: '🍗',
-                label: '치킨 지수',
-                value: '치킨 ${reality.chickenCount}마리 안 먹는 셈',
-              ),
-              _MetricRow(
-                emoji: '☕',
-                label: '스타벅스',
-                value: '아메리카노 ${reality.coffeeCount}잔 꼴',
-              ),
-              const SizedBox(height: 12),
-              Text(
-                '💬 "이 돈이면 당근마켓에 더 싸게 나와있지 않을까?"',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 8),
-              OutlinedButton.icon(
-                onPressed: _openDaangnSearch,
-                icon: const Text('🥕'),
-                label: const Text('당근에서 중고 시세 검색해보기'),
-              ),
-              const SizedBox(height: 8),
-              OutlinedButton.icon(
-                onPressed: _shareToFriends,
-                icon: const Text('💬'),
-                label: const Text('친구한테 살까 말까 물어보기'),
+              SoftCard(
+                color: AppColors.mintSoft,
+                shadow: const [],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      '💬 "이 돈이면 당근마켓에 더 싸게 나와있지 않을까?"',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 14),
+                    OutlinedButton.icon(
+                      onPressed: _openDaangnSearch,
+                      icon: const Text('🥕'),
+                      label: const Text('당근에서 중고 시세 검색해보기'),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(48),
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    OutlinedButton.icon(
+                      onPressed: _shareToFriends,
+                      icon: const Text('💬'),
+                      label: const Text('친구한테 살까 말까 물어보기'),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(48),
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 28),
-              const Divider(),
-              const SizedBox(height: 12),
               FilledButton(
                 onPressed: () => _holdOff(context),
                 child: const Text('🔥 72시간만 참아보기 ⏳'),
@@ -145,26 +173,47 @@ class RealityCheckScreen extends StatelessWidget {
   }
 }
 
-class _MetricRow extends StatelessWidget {
+class _StatCard extends StatelessWidget {
   final String emoji;
+  final Color color;
   final String label;
   final String value;
 
-  const _MetricRow(
-      {required this.emoji, required this.label, required this.value});
+  const _StatCard({
+    required this.emoji,
+    required this.color,
+    required this.label,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.16),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 22)),
-          const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
-          const Spacer(),
-          Flexible(
-            child: Text(value, textAlign: TextAlign.right),
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            alignment: Alignment.center,
+            child: Text(emoji, style: const TextStyle(fontSize: 18)),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            value,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15, height: 1.2),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontWeight: FontWeight.w600),
           ),
         ],
       ),

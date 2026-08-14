@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/root_shell.dart';
 import 'services/app_state.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   runApp(const SalKkaApp());
@@ -17,11 +18,7 @@ class SalKkaApp extends StatelessWidget {
       child: MaterialApp(
         title: '살까',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFF6B4A)),
-          useMaterial3: true,
-          fontFamily: 'NotoSansKR',
-        ),
+        theme: AppTheme.light(),
         home: const _AppGate(),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/income_settings.dart';
 import '../models/shopping_item.dart';
 import '../services/app_state.dart';
+import '../theme/app_theme.dart';
 import '../utils/calc.dart';
 import 'reality_check_screen.dart';
 
@@ -65,92 +66,173 @@ class _InputScreenState extends State<InputScreen> {
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
     _syncIncomeFromState(appState);
+    final level = appState.levelInfo;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('살까?')),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('월급 / 시급',
-                    style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 8),
-                SegmentedButton<IncomeType>(
-                  segments: const [
-                    ButtonSegment(
-                        value: IncomeType.hourly, label: Text('시급')),
-                    ButtonSegment(
-                        value: IncomeType.monthly, label: Text('월급')),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('안녕하세요 👋',
+                              style: TextStyle(
+                                  color: AppColors.textMuted,
+                                  fontWeight: FontWeight.w600)),
+                          SizedBox(height: 4),
+                          Text('오늘은 뭘 참아볼까요?',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.w800)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: AppColors.primarySoft,
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(level.emoji, style: const TextStyle(fontSize: 16)),
+                          const SizedBox(width: 4),
+                          Text('Lv.${level.level}',
+                              style: const TextStyle(
+                                  color: AppColors.primaryDark,
+                                  fontWeight: FontWeight.w800)),
+                        ],
+                      ),
+                    ),
                   ],
-                  selected: {_incomeType},
-                  onSelectionChanged: (s) =>
-                      setState(() => _incomeType = s.first),
                 ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: _incomeController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText:
-                        _incomeType == IncomeType.hourly ? '시급 (원)' : '월급 (원)',
-                    border: const OutlineInputBorder(),
+                const SizedBox(height: 24),
+                SoftCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text('💰  월급 또는 시급이 얼마예요?',
+                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                      const SizedBox(height: 14),
+                      SegmentedButton<IncomeType>(
+                        segments: const [
+                          ButtonSegment(
+                              value: IncomeType.hourly, label: Text('시급')),
+                          ButtonSegment(
+                              value: IncomeType.monthly, label: Text('월급')),
+                        ],
+                        selected: {_incomeType},
+                        onSelectionChanged: (s) =>
+                            setState(() => _incomeType = s.first),
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _incomeController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: _incomeType == IncomeType.hourly
+                              ? '시급 (원)'
+                              : '월급 (원)',
+                        ),
+                        validator: (v) {
+                          if (v == null || v.isEmpty) return '금액을 입력해주세요';
+                          if (double.tryParse(v.replaceAll(',', '')) == null) {
+                            return '숫자만 입력해주세요';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
                   ),
-                  validator: (v) {
-                    if (v == null || v.isEmpty) return '금액을 입력해주세요';
-                    if (double.tryParse(v.replaceAll(',', '')) == null) {
-                      return '숫자만 입력해주세요';
-                    }
-                    return null;
-                  },
                 ),
-                const SizedBox(height: 28),
-                Text('상품 정보', style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: '상품명 또는 링크',
-                    hintText: '예: 무신사 패딩',
-                    border: OutlineInputBorder(),
+                const SizedBox(height: 16),
+                SoftCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text('🛍️  뭐가 사고 싶나요?',
+                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                      const SizedBox(height: 14),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          labelText: '상품명 또는 링크',
+                          hintText: '예: 무신사 패딩',
+                        ),
+                        validator: (v) =>
+                            (v == null || v.trim().isEmpty) ? '상품명을 입력해주세요' : null,
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _priceController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: '가격 (원)',
+                          hintText: '예: 150000',
+                        ),
+                        validator: (v) {
+                          if (v == null || v.isEmpty) return '가격을 입력해주세요';
+                          if (double.tryParse(v.replaceAll(',', '')) == null) {
+                            return '숫자만 입력해주세요';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      const Text('카테고리',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textMuted,
+                              fontSize: 13)),
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: Category.values.map((c) {
+                          final selected = c == _category;
+                          return GestureDetector(
+                            onTap: () => setState(() => _category = c),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 150),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: selected
+                                    ? c.color
+                                    : c.color.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(c.emoji, style: const TextStyle(fontSize: 16)),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    c.label,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: selected ? Colors.white : AppColors.textDark,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ),
-                  validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? '상품명을 입력해주세요' : null,
                 ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: _priceController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: '가격 (원)',
-                    hintText: '예: 150000',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (v) {
-                    if (v == null || v.isEmpty) return '가격을 입력해주세요';
-                    if (double.tryParse(v.replaceAll(',', '')) == null) {
-                      return '숫자만 입력해주세요';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 12),
-                DropdownButtonFormField<Category>(
-                  initialValue: _category,
-                  decoration: const InputDecoration(
-                    labelText: '카테고리',
-                    border: OutlineInputBorder(),
-                  ),
-                  items: Category.values
-                      .map((c) =>
-                          DropdownMenuItem(value: c, child: Text(c.label)))
-                      .toList(),
-                  onChanged: (v) => setState(() => _category = v!),
-                ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 24),
                 FilledButton(
                   onPressed: () => _submit(appState),
                   child: const Text('팩폭 리포트 보기 🚨'),
