@@ -91,6 +91,7 @@ A dedicated tab for the things that don't belong on the low-friction home screen
   * **절약 vs 지출:** a ratio bar comparing total saved to total spent.
   * **카테고리별 지출:** spending broken down by category.
   * **최근 지출 내역:** a short list of recent purchases.
+* **Optional sign-in:** "Google로 계속하기" via Supabase Auth (Google OAuth). Signing in is never required — the app is fully usable offline with local storage as before. When signed in, income settings sync to a `profiles` table so they carry over across devices/reinstalls.
 
 ---
 

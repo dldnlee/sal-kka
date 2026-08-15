@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/income_settings.dart';
 import '../models/shopping_item.dart';
 import '../services/app_state.dart';
+import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
 import '../utils/calc.dart';
 
@@ -18,6 +19,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   IncomeType _incomeType = IncomeType.hourly;
   bool _initialized = false;
   bool _saved = false;
+  bool _pulledRemote = false;
+  bool _signingIn = false;
 
   @override
   void dispose() {
@@ -32,20 +35,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _initialized = true;
   }
 
-  void _save(AppState appState) async {
+  void _maybePullRemoteIncome(AppState appState, AuthService auth) {
+    if (!auth.isLoggedIn || _pulledRemote) return;
+    _pulledRemote = true;
+    auth.fetchIncomeProfile().then((remote) {
+      if (remote == null || !mounted) return;
+      final type = remote['income_type'] == 'monthly'
+          ? IncomeType.monthly
+          : IncomeType.hourly;
+      final amount = (remote['income_amount'] as num).toDouble();
+      appState.setIncome(IncomeSettings(type: type, amount: amount));
+      setState(() {
+        _incomeType = type;
+        _incomeController.text = amount.toStringAsFixed(0);
+      });
+    });
+  }
+
+  void _save(AppState appState, AuthService auth) async {
     final amount = double.tryParse(_incomeController.text.replaceAll(',', ''));
     if (amount == null) return;
     await appState.setIncome(IncomeSettings(type: _incomeType, amount: amount));
+    if (auth.isLoggedIn) {
+      await auth.saveIncomeProfile(
+        incomeType: _incomeType.name,
+        incomeAmount: amount,
+      );
+    }
     setState(() => _saved = true);
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) setState(() => _saved = false);
     });
   }
 
+  void _signIn(AuthService auth) async {
+    setState(() => _signingIn = true);
+    try {
+      await auth.signInWithGoogle();
+    } finally {
+      if (mounted) setState(() => _signingIn = false);
+    }
+  }
+
+  void _signOut(AuthService auth) async {
+    await auth.signOut();
+    _pulledRemote = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
+    final auth = context.watch<AuthService>();
     _syncFromState(appState);
+    _maybePullRemoteIncome(appState, auth);
 
     final totalSaved = appState.totalSaved;
     final totalSpent = appState.totalSpent;
@@ -62,6 +104,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const Text('내 프로필',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
             const SizedBox(height: 20),
+            SoftCard(
+              child: auth.isLoggedIn
+                  ? Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 22,
+                          backgroundColor: AppColors.primarySoft,
+                          child: Text(
+                            (auth.currentUser?.email ?? '?')
+                                .substring(0, 1)
+                                .toUpperCase(),
+                            style: const TextStyle(
+                                color: AppColors.primaryDark,
+                                fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('로그인됨',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700, fontSize: 13)),
+                              Text(
+                                auth.currentUser?.email ?? '',
+                                style: const TextStyle(
+                                    color: AppColors.textMuted, fontSize: 12),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => _signOut(auth),
+                          child: const Text('로그아웃'),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text('로그인하고 내 정보 지키기',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 14)),
+                        const SizedBox(height: 4),
+                        const Text('로그인하지 않아도 이 기기에서는 계속 사용할 수 있어요',
+                            style: TextStyle(
+                                color: AppColors.textMuted, fontSize: 11)),
+                        const SizedBox(height: 14),
+                        OutlinedButton.icon(
+                          onPressed: _signingIn ? null : () => _signIn(auth),
+                          icon: _signingIn
+                              ? const SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                )
+                              : const Text('🔎'),
+                          label: Text(_signingIn ? '로그인 중...' : 'Google로 계속하기'),
+                        ),
+                      ],
+                    ),
+            ),
+            const SizedBox(height: 16),
             SoftCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(height: 14),
                   FilledButton(
-                    onPressed: () => _save(appState),
+                    onPressed: () => _save(appState, auth),
                     child: Text(_saved ? '저장됐어요 ✅' : '저장하기'),
                   ),
                 ],
