@@ -56,7 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               children: [
                 const Text('오늘도 잘 하고 있어요 ✨',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 20),
                 Container(
                   width: double.infinity,
@@ -80,25 +80,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('내가 아낀 총 금액',
-                          style: TextStyle(color: Colors.white70, fontSize: 14)),
+                          style: TextStyle(color: Colors.white70, fontSize: 13)),
                       const SizedBox(height: 6),
                       Text(
                         formatKoreanUnit(appState.totalSaved),
                         style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 34,
+                            fontSize: 28,
                             fontWeight: FontWeight.w800),
                       ),
                       const SizedBox(height: 18),
                       Row(
                         children: [
-                          Text(level.emoji, style: const TextStyle(fontSize: 18)),
+                          Text(level.emoji, style: const TextStyle(fontSize: 15)),
                           const SizedBox(width: 6),
                           Text('Lv.${level.level} ${level.title}',
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 13)),
+                                  fontSize: 12)),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -117,7 +117,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         level.nextFloor == null
                             ? '최고 레벨을 달성했어요! 👑'
                             : '다음 레벨까지 ${formatKoreanUnit(level.nextFloor! - appState.totalSaved)}',
-                        style: const TextStyle(color: Colors.white70, fontSize: 12),
+                        style: const TextStyle(color: Colors.white70, fontSize: 11),
                       ),
                     ],
                   ),
@@ -146,7 +146,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 const SizedBox(height: 24),
                 const Text('나의 배지',
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 10,
@@ -158,7 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 const SizedBox(height: 28),
                 const Text('기록',
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
                 const SizedBox(height: 12),
                 if (history.isEmpty)
                   const Padding(
@@ -205,7 +205,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Text(
                                   '${item.category.emoji} ${item.category.label} · ${formatKoreanUnit(item.price)}',
                                   style: const TextStyle(
-                                      color: AppColors.textMuted, fontSize: 12),
+                                      color: AppColors.textMuted, fontSize: 11),
                                 ),
                               ],
                             ),
@@ -225,7 +225,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     ? const Color(0xFF1F9C77)
                                     : const Color(0xFFD9603F),
                                 fontWeight: FontWeight.w700,
-                                fontSize: 12,
+                                fontSize: 11,
                               ),
                             ),
                           ),
@@ -288,10 +288,10 @@ class _MiniStat extends StatelessWidget {
             children: [
               Text(value,
                   style:
-                      const TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+                      const TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
               Text(label,
                   style: const TextStyle(
-                      color: AppColors.textMuted, fontSize: 11)),
+                      color: AppColors.textMuted, fontSize: 10)),
             ],
           ),
         ],
@@ -331,7 +331,7 @@ class _BadgeChip extends StatelessWidget {
               badge.title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: FontWeight.w700,
                 color: unlocked ? AppColors.textDark : AppColors.textMuted,
               ),

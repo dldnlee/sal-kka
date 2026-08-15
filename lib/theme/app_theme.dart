@@ -52,7 +52,7 @@ class AppTheme {
         foregroundColor: AppColors.textDark,
         titleTextStyle: TextStyle(
           color: AppColors.textDark,
-          fontSize: 20,
+          fontSize: 17,
           fontWeight: FontWeight.w800,
           fontFamily: 'NotoSansKR',
         ),
@@ -70,7 +70,7 @@ class AppTheme {
           foregroundColor: Colors.white,
           minimumSize: const Size.fromHeight(56),
           shape: const StadiumBorder(),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -80,7 +80,7 @@ class AppTheme {
           side: const BorderSide(color: AppColors.primarySoft, width: 2),
           shape: const StadiumBorder(),
           backgroundColor: Colors.white,
-          textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
         ),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
@@ -91,7 +91,7 @@ class AppTheme {
           backgroundColor: Colors.white,
           foregroundColor: AppColors.textMuted,
           side: const BorderSide(color: AppColors.primarySoft, width: 2),
-          textStyle: const TextStyle(fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(

@@ -60,17 +60,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
           children: [
             const Text('내 프로필',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
             const SizedBox(height: 20),
             SoftCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text('💰  월급 또는 시급이 얼마예요?',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
                   const SizedBox(height: 4),
                   const Text('상품 가격을 노동 시간으로 환산할 때 사용돼요',
-                      style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                      style: TextStyle(color: AppColors.textMuted, fontSize: 11)),
                   const SizedBox(height: 14),
                   SegmentedButton<IncomeType>(
                     segments: const [
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text('절약 vs 지출',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
                   const SizedBox(height: 14),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(999),
@@ -142,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     denom > 0
                         ? '아낀 돈이 전체의 ${(saveRatio * 100).round()}%예요'
                         : '아직 기록이 없어요',
-                    style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
+                    style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
                   ),
                 ],
               ),
@@ -150,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (spendingByCategory.isNotEmpty) ...[
               const SizedBox(height: 24),
               const Text('카테고리별 지출',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
               const SizedBox(height: 12),
               SoftCard(
                 child: Column(
@@ -193,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (recentPurchases.isNotEmpty) ...[
               const SizedBox(height: 24),
               const Text('최근 지출 내역',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
               const SizedBox(height: 12),
               ...recentPurchases.map((item) => Container(
                     margin: const EdgeInsets.only(bottom: 10),
@@ -283,9 +283,9 @@ class _StatBlock extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(value,
-                    style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
+                    style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14)),
                 Text(label,
-                    style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
+                    style: const TextStyle(color: AppColors.textMuted, fontSize: 10)),
               ],
             ),
           ),

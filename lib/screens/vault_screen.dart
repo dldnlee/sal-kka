@@ -130,13 +130,13 @@ class _VaultScreenState extends State<VaultScreen> {
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 16)),
+                                              fontSize: 15)),
                                       const SizedBox(height: 4),
                                       Text(
                                         '${item.category.emoji} ${item.category.label} · ${formatKoreanUnit(item.price)}',
                                         style: const TextStyle(
                                             color: Colors.white60,
-                                            fontSize: 13),
+                                            fontSize: 12),
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
@@ -150,7 +150,7 @@ class _VaultScreenState extends State<VaultScreen> {
                                           fontWeight: isDue
                                               ? FontWeight.w700
                                               : FontWeight.w500,
-                                          fontSize: 13,
+                                          fontSize: 12,
                                         ),
                                       ),
                                     ],

@@ -1,50 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/shopping_item.dart';
 import '../services/app_state.dart';
 import '../theme/app_theme.dart';
-import '../utils/calc.dart';
-import 'reality_check_screen.dart';
+import 'add_item_screen.dart';
 
-class InputScreen extends StatefulWidget {
+class InputScreen extends StatelessWidget {
   const InputScreen({super.key});
-
-  @override
-  State<InputScreen> createState() => _InputScreenState();
-}
-
-class _InputScreenState extends State<InputScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _priceController = TextEditingController();
-
-  Category _category = Category.fashion;
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _priceController.dispose();
-    super.dispose();
-  }
-
-  void _submit(AppState appState) async {
-    if (!_formKey.currentState!.validate()) return;
-
-    final hourlyWage = toHourlyWage(appState.income);
-    final price = double.parse(_priceController.text.replaceAll(',', ''));
-
-    if (!mounted) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => RealityCheckScreen(
-          name: _nameController.text.trim(),
-          price: price,
-          category: _category,
-          hourlyWage: hourlyWage,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,141 +14,165 @@ class _InputScreenState extends State<InputScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('안녕하세요 👋',
-                              style: TextStyle(
-                                  color: AppColors.textMuted,
-                                  fontWeight: FontWeight.w600)),
-                          SizedBox(height: 4),
-                          Text('오늘은 뭘 참아볼까요?',
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w800)),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Stack(
+                children: [
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('안녕하세요 👋',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: AppColors.textMuted,
+                              fontWeight: FontWeight.w600)),
+                      SizedBox(height: 4),
+                      Text('오늘은 뭘 참아볼까요?',
+                          style: TextStyle(
+                              fontSize: 19, fontWeight: FontWeight.w800)),
+                    ],
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: GestureDetector(
                       onTap: () => appState.goToTab(3),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 10),
+                            horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
                           color: AppColors.primarySoft,
                           borderRadius: BorderRadius.circular(999),
                         ),
                         child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(level.emoji, style: const TextStyle(fontSize: 16)),
+                            Text(level.emoji, style: const TextStyle(fontSize: 13)),
                             const SizedBox(width: 4),
                             Text('Lv.${level.level}',
                                 style: const TextStyle(
+                                    fontSize: 12,
                                     color: AppColors.primaryDark,
                                     fontWeight: FontWeight.w800)),
                           ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                SoftCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Text('🛍️  뭐가 사고 싶나요?',
-                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-                      const SizedBox(height: 14),
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: '상품명 또는 링크',
-                          hintText: '예: 무신사 패딩',
-                        ),
-                        validator: (v) =>
-                            (v == null || v.trim().isEmpty) ? '상품명을 입력해주세요' : null,
-                      ),
-                      const SizedBox(height: 12),
-                      TextFormField(
-                        controller: _priceController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: '가격 (원)',
-                          hintText: '예: 150000',
-                        ),
-                        validator: (v) {
-                          if (v == null || v.isEmpty) return '가격을 입력해주세요';
-                          if (double.tryParse(v.replaceAll(',', '')) == null) {
-                            return '숫자만 입력해주세요';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      const Text('카테고리',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textMuted,
-                              fontSize: 13)),
-                      const SizedBox(height: 10),
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: Category.values.map((c) {
-                          final selected = c == _category;
-                          return GestureDetector(
-                            onTap: () => setState(() => _category = c),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 150),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              decoration: BoxDecoration(
-                                color: selected
-                                    ? c.color
-                                    : c.color.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(999),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(c.emoji, style: const TextStyle(fontSize: 16)),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    c.label,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: selected ? Colors.white : AppColors.textDark,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
                   ),
-                ),
-                const SizedBox(height: 24),
-                FilledButton(
-                  onPressed: () => _submit(appState),
-                  child: const Text('팩폭 리포트 보기 🚨'),
-                ),
-              ],
-            ),
+                ],
+              ),
+              const Expanded(
+                child: Center(child: _Mascot()),
+              ),
+            ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Mascot extends StatefulWidget {
+  const _Mascot();
+
+  @override
+  State<_Mascot> createState() => _MascotState();
+}
+
+class _MascotState extends State<_Mascot> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _open(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const AddItemScreen()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _open(context),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final scale = 1.0 + _controller.value * 0.05;
+              return Transform.scale(scale: scale, child: child);
+            },
+            child: Container(
+              width: 168,
+              height: 168,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [AppColors.primary, AppColors.mint],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.35),
+                    blurRadius: 32,
+                    offset: const Offset(0, 16),
+                  ),
+                ],
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Text('🐷', style: TextStyle(fontSize: 84)),
+                  Positioned(
+                    bottom: 6,
+                    right: 6,
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x33000000),
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(Icons.add_rounded,
+                          color: AppColors.primary, size: 22),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          const Text('뭐 사고 싶어요?',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+          const SizedBox(height: 6),
+          const Text('눌러서 기록해보세요 👆',
+              style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
+        ],
       ),
     );
   }

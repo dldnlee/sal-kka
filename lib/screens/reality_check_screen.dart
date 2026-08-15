@@ -88,7 +88,7 @@ class RealityCheckScreen extends StatelessWidget {
             children: [
               Text(
                 '"$name (${formatKoreanUnit(price)})을 사려면..."',
-                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
               ),
               const SizedBox(height: 18),
               Row(
@@ -207,13 +207,13 @@ class _StatCard extends StatelessWidget {
           Text(
             value,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15, height: 1.2),
+            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14, height: 1.2),
           ),
           const SizedBox(height: 4),
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 10, color: AppColors.textMuted, fontWeight: FontWeight.w600),
           ),
         ],
       ),
