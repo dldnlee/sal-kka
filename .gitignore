@@ -49,3 +49,9 @@ app.*.map.json
 
 # MCP server config (contains a Supabase Personal Access Token — never commit)
 .mcp.json
+
+# Release signing (Play Store upload key — never commit)
+android/key.properties
+android/app/upload-keystore.jks
+*.jks
+*.keystore

@@ -54,7 +54,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       appBar: AppBar(title: const Text('뭐가 사고 싶나요? 🛍️')),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 20),
           child: Form(
             key: _formKey,
             child: Column(
@@ -73,7 +73,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? '상품명을 입력해주세요' : null,
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       TextFormField(
                         controller: _priceController,
                         keyboardType: TextInputType.number,
@@ -89,16 +89,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12),
                       const Text('카테고리',
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: AppColors.textMuted,
-                              fontSize: 12)),
-                      const SizedBox(height: 10),
+                              fontSize: 10)),
+                      const SizedBox(height: 8),
                       Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
+                        spacing: 8,
+                        runSpacing: 8,
                         children: Category.values.map((c) {
                           final selected = c == _category;
                           return GestureDetector(
@@ -106,7 +106,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 150),
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
+                                  horizontal: 12, vertical: 9),
                               decoration: BoxDecoration(
                                 color: selected
                                     ? c.color
@@ -116,11 +116,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(c.emoji, style: const TextStyle(fontSize: 16)),
-                                  const SizedBox(width: 6),
+                                  Text(c.emoji, style: const TextStyle(fontSize: 14)),
+                                  const SizedBox(width: 4),
                                   Text(
                                     c.label,
                                     style: TextStyle(
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w700,
                                       color: selected ? Colors.white : AppColors.textDark,
                                     ),
@@ -134,7 +135,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 FilledButton(
                   onPressed: () => _submit(appState),
                   child: const Text('팩폭 리포트 보기 🚨'),

@@ -51,7 +51,7 @@ class RealityCheckScreen extends StatelessWidget {
     await appState.addItem(item);
     if (!context.mounted) return;
     appState.goToTab(1);
-    Navigator.of(context).pop();
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   void _buyNow(BuildContext context) async {
@@ -71,7 +71,7 @@ class RealityCheckScreen extends StatelessWidget {
     await appState.addItem(item);
     if (!context.mounted) return;
     appState.goToTab(2);
-    Navigator.of(context).pop();
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   @override
@@ -82,15 +82,15 @@ class RealityCheckScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('🚨 팩트 폭격 리포트')),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: const EdgeInsets.fromLTRB(16, 6, 16, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 '"$name (${formatKoreanUnit(price)})을 사려면..."',
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
@@ -101,7 +101,7 @@ class RealityCheckScreen extends StatelessWidget {
                       value: '${reality.hours}시간\n${reality.minutes}분',
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: _StatCard(
                       emoji: '🍗',
@@ -110,7 +110,7 @@ class RealityCheckScreen extends StatelessWidget {
                       value: '${reality.chickenCount}마리',
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: _StatCard(
                       emoji: '☕',
@@ -121,7 +121,7 @@ class RealityCheckScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 14),
               SoftCard(
                 color: AppColors.mintSoft,
                 shadow: const [],
@@ -130,37 +130,37 @@ class RealityCheckScreen extends StatelessWidget {
                   children: [
                     const Text(
                       '💬 "이 돈이면 당근마켓에 더 싸게 나와있지 않을까?"',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 10),
                     OutlinedButton.icon(
                       onPressed: _openDaangnSearch,
                       icon: const Text('🥕'),
                       label: const Text('당근에서 중고 시세 검색해보기'),
                       style: OutlinedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(48),
+                        minimumSize: const Size.fromHeight(42),
                         backgroundColor: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 8),
                     OutlinedButton.icon(
                       onPressed: _shareToFriends,
                       icon: const Text('💬'),
                       label: const Text('친구한테 살까 말까 물어보기'),
                       style: OutlinedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(48),
+                        minimumSize: const Size.fromHeight(42),
                         backgroundColor: Colors.white,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 18),
               FilledButton(
                 onPressed: () => _holdOff(context),
                 child: const Text('🔥 72시간만 참아보기 ⏳'),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               OutlinedButton(
                 onPressed: () => _buyNow(context),
                 child: const Text('지름신 강림... 그냥 살래 💸'),
@@ -189,31 +189,31 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 34,
+            height: 34,
             decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             alignment: Alignment.center,
-            child: Text(emoji, style: const TextStyle(fontSize: 18)),
+            child: Text(emoji, style: const TextStyle(fontSize: 16)),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           Text(
             value,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14, height: 1.2),
+            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 12, height: 1.2),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 3),
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 10, color: AppColors.textMuted, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 9, color: AppColors.textMuted, fontWeight: FontWeight.w600),
           ),
         ],
       ),

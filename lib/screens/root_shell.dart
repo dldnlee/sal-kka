@@ -43,7 +43,7 @@ class RootShell extends StatelessWidget {
         ),
         child: SafeArea(
           child: SizedBox(
-            height: 64,
+            height: 54,
             child: Row(
               children: List.generate(_tabs.length, (i) {
                 final (icon, label) = _tabs[i];
@@ -55,14 +55,15 @@ class RootShell extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(icon,
+                            size: 22,
                             color: selected
                                 ? AppColors.primaryDark
                                 : AppColors.textMuted),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         Text(
                           label,
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
                             color: selected
                                 ? AppColors.primaryDark

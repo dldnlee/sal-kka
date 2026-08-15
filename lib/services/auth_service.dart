@@ -19,6 +19,23 @@ class AuthService extends ChangeNotifier {
     );
   }
 
+  /// Creates a new account. If email confirmation is required by the
+  /// project's auth settings, [AuthResponse.session] will be null until the
+  /// user confirms via the link sent to their inbox.
+  Future<AuthResponse> signUpWithPassword({
+    required String email,
+    required String password,
+  }) {
+    return _client.auth.signUp(email: email, password: password);
+  }
+
+  Future<AuthResponse> signInWithPassword({
+    required String email,
+    required String password,
+  }) {
+    return _client.auth.signInWithPassword(email: email, password: password);
+  }
+
   Future<void> signOut() async {
     await _client.auth.signOut();
   }

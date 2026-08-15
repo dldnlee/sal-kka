@@ -53,21 +53,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
           alignment: Alignment.topCenter,
           children: [
             ListView(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
               children: [
                 const Text('오늘도 잘 하고 있어요 ✨',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
-                const SizedBox(height: 20),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800)),
+                const SizedBox(height: 14),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(22),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [AppColors.primary, AppColors.primaryDark],
                     ),
-                    borderRadius: BorderRadius.circular(28),
+                    borderRadius: BorderRadius.circular(22),
                     boxShadow: const [
                       BoxShadow(
                         color: Color(0x337B6EF6),
@@ -80,49 +80,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('내가 아낀 총 금액',
-                          style: TextStyle(color: Colors.white70, fontSize: 13)),
-                      const SizedBox(height: 6),
+                          style: TextStyle(color: Colors.white70, fontSize: 11)),
+                      const SizedBox(height: 4),
                       Text(
                         formatKoreanUnit(appState.totalSaved),
                         style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 28,
+                            fontSize: 24,
                             fontWeight: FontWeight.w800),
                       ),
-                      const SizedBox(height: 18),
+                      const SizedBox(height: 12),
                       Row(
                         children: [
-                          Text(level.emoji, style: const TextStyle(fontSize: 15)),
-                          const SizedBox(width: 6),
+                          Text(level.emoji, style: const TextStyle(fontSize: 13)),
+                          const SizedBox(width: 4),
                           Text('Lv.${level.level} ${level.title}',
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 12)),
+                                  fontSize: 10)),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 8),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(999),
                         child: LinearProgressIndicator(
                           value: level.progress(appState.totalSaved).toDouble(),
-                          minHeight: 10,
+                          minHeight: 8,
                           backgroundColor: Colors.white24,
                           valueColor:
                               const AlwaysStoppedAnimation(AppColors.mint),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 6),
                       Text(
                         level.nextFloor == null
                             ? '최고 레벨을 달성했어요! 👑'
                             : '다음 레벨까지 ${formatKoreanUnit(level.nextFloor! - appState.totalSaved)}',
-                        style: const TextStyle(color: Colors.white70, fontSize: 11),
+                        style: const TextStyle(color: Colors.white70, fontSize: 10),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Row(
                   children: [
                     Expanded(
@@ -133,7 +133,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         label: '연속 참기',
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: _MiniStat(
                         emoji: '🎉',
@@ -144,25 +144,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 const Text('나의 배지',
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
-                const SizedBox(height: 12),
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13)),
+                const SizedBox(height: 8),
                 Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
+                  spacing: 8,
+                  runSpacing: 8,
                   children: allBadges.map((badge) {
                     final unlocked = unlockedIds.contains(badge.id);
                     return _BadgeChip(badge: badge, unlocked: unlocked);
                   }).toList(),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 18),
                 const Text('기록',
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
-                const SizedBox(height: 12),
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13)),
+                const SizedBox(height: 8),
                 if (history.isEmpty)
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: 14),
                     child: Center(
                       child: Text('아직 기록이 없어요',
                           style: TextStyle(color: AppColors.textMuted)),
@@ -172,18 +172,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ...history.map((item) {
                     final saved = item.status == ItemStatus.saved;
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      padding: const EdgeInsets.all(14),
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(14),
                         boxShadow: softShadow,
                       ),
                       child: Row(
                         children: [
                           Container(
-                            width: 42,
-                            height: 42,
+                            width: 36,
+                            height: 36,
                             decoration: BoxDecoration(
                               color: (saved ? AppColors.mint : AppColors.coral)
                                   .withValues(alpha: 0.16),
@@ -191,28 +191,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             alignment: Alignment.center,
                             child: Text(saved ? '🎉' : '💸',
-                                style: const TextStyle(fontSize: 18)),
+                                style: const TextStyle(fontSize: 16)),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(item.name,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.w700)),
+                                        fontSize: 13, fontWeight: FontWeight.w700)),
                                 const SizedBox(height: 2),
                                 Text(
                                   '${item.category.emoji} ${item.category.label} · ${formatKoreanUnit(item.price)}',
                                   style: const TextStyle(
-                                      color: AppColors.textMuted, fontSize: 11),
+                                      color: AppColors.textMuted, fontSize: 10),
                                 ),
                               ],
                             ),
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 6),
+                                horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
                               color: (saved ? AppColors.mint : AppColors.coral)
                                   .withValues(alpha: 0.16),
@@ -225,7 +225,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     ? const Color(0xFF1F9C77)
                                     : const Color(0xFFD9603F),
                                 fontWeight: FontWeight.w700,
-                                fontSize: 11,
+                                fontSize: 10,
                               ),
                             ),
                           ),
@@ -264,34 +264,34 @@ class _MiniStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: softShadow,
       ),
       child: Row(
         children: [
           Container(
-            width: 36,
-            height: 36,
+            width: 30,
+            height: 30,
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.16),
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: Text(emoji, style: const TextStyle(fontSize: 16)),
+            child: Text(emoji, style: const TextStyle(fontSize: 14)),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(value,
                   style:
-                      const TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
+                      const TextStyle(fontWeight: FontWeight.w800, fontSize: 13)),
               Text(label,
                   style: const TextStyle(
-                      color: AppColors.textMuted, fontSize: 10)),
+                      color: AppColors.textMuted, fontSize: 9)),
             ],
           ),
         ],
@@ -311,11 +311,11 @@ class _BadgeChip extends StatelessWidget {
     return Tooltip(
       message: badge.description,
       child: Container(
-        width: 92,
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+        width: 78,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
         decoration: BoxDecoration(
           color: unlocked ? AppColors.gold.withValues(alpha: 0.16) : Colors.white,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(14),
           border: unlocked
               ? null
               : Border.all(color: AppColors.primarySoft, width: 1.5),
@@ -324,14 +324,14 @@ class _BadgeChip extends StatelessWidget {
           children: [
             Opacity(
               opacity: unlocked ? 1 : 0.3,
-              child: Text(badge.emoji, style: const TextStyle(fontSize: 26)),
+              child: Text(badge.emoji, style: const TextStyle(fontSize: 22)),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
             Text(
               badge.title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 10,
+                fontSize: 9,
                 fontWeight: FontWeight.w700,
                 color: unlocked ? AppColors.textDark : AppColors.textMuted,
               ),

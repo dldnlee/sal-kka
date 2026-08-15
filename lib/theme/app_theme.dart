@@ -52,7 +52,7 @@ class AppTheme {
         foregroundColor: AppColors.textDark,
         titleTextStyle: TextStyle(
           color: AppColors.textDark,
-          fontSize: 17,
+          fontSize: 15,
           fontWeight: FontWeight.w800,
           fontFamily: 'NotoSansKR',
         ),
@@ -68,19 +68,19 @@ class AppTheme {
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          minimumSize: const Size.fromHeight(56),
+          minimumSize: const Size.fromHeight(46),
           shape: const StadiumBorder(),
-          textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.textDark,
-          minimumSize: const Size.fromHeight(56),
+          minimumSize: const Size.fromHeight(46),
           side: const BorderSide(color: AppColors.primarySoft, width: 2),
           shape: const StadiumBorder(),
           backgroundColor: Colors.white,
-          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
         ),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
@@ -91,35 +91,35 @@ class AppTheme {
           backgroundColor: Colors.white,
           foregroundColor: AppColors.textMuted,
           side: const BorderSide(color: AppColors.primarySoft, width: 2),
-          textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         hintStyle: const TextStyle(color: AppColors.textMuted),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
         ),
       ),
       cardTheme: CardThemeData(
         color: Colors.white,
         elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: Colors.white,
@@ -129,7 +129,7 @@ class AppTheme {
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
           return TextStyle(
-            fontSize: 12,
+            fontSize: 10,
             fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
             color: selected ? AppColors.primaryDark : AppColors.textMuted,
           );
@@ -157,9 +157,9 @@ class SoftCard extends StatelessWidget {
     super.key,
     required this.child,
     this.color = AppColors.card,
-    this.padding = const EdgeInsets.all(20),
+    this.padding = const EdgeInsets.all(14),
     this.shadow,
-    this.radius = 24,
+    this.radius = 18,
   });
 
   @override

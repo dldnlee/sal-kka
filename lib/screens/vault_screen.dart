@@ -84,9 +84,9 @@ class _VaultScreenState extends State<VaultScreen> {
                         style: TextStyle(color: Colors.white70)),
                   )
                 : ListView.separated(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(12),
                     itemCount: items.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 14),
+                    separatorBuilder: (_, _) => const SizedBox(height: 10),
                     itemBuilder: (context, i) {
                       final item = items[i];
                       final remaining =
@@ -102,10 +102,10 @@ class _VaultScreenState extends State<VaultScreen> {
                           total > 0 ? (elapsed / total).clamp(0.0, 1.0) : 1.0;
 
                       return Container(
-                        padding: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
                           color: AppColors.nightCard,
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(18),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -120,7 +120,7 @@ class _VaultScreenState extends State<VaultScreen> {
                                       ? 0
                                       : remaining.inHours,
                                 ),
-                                const SizedBox(width: 16),
+                                const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -130,15 +130,15 @@ class _VaultScreenState extends State<VaultScreen> {
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 15)),
-                                      const SizedBox(height: 4),
+                                              fontSize: 13)),
+                                      const SizedBox(height: 3),
                                       Text(
                                         '${item.category.emoji} ${item.category.label} · ${formatKoreanUnit(item.price)}',
                                         style: const TextStyle(
                                             color: Colors.white60,
-                                            fontSize: 12),
+                                            fontSize: 10),
                                       ),
-                                      const SizedBox(height: 8),
+                                      const SizedBox(height: 6),
                                       Text(
                                         isDue
                                             ? '⏰ 고민 끝! 아직도 사고 싶어?'
@@ -150,7 +150,7 @@ class _VaultScreenState extends State<VaultScreen> {
                                           fontWeight: isDue
                                               ? FontWeight.w700
                                               : FontWeight.w500,
-                                          fontSize: 12,
+                                          fontSize: 10,
                                         ),
                                       ),
                                     ],
@@ -158,14 +158,14 @@ class _VaultScreenState extends State<VaultScreen> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 14),
+                            const SizedBox(height: 10),
                             Row(
                               children: [
                                 Expanded(
                                   child: FilledButton(
                                     style: FilledButton.styleFrom(
                                       backgroundColor: AppColors.mint,
-                                      minimumSize: const Size.fromHeight(48),
+                                      minimumSize: const Size.fromHeight(42),
                                     ),
                                     onPressed: () => _resolve(
                                         context, item, ItemStatus.saved),
@@ -180,7 +180,7 @@ class _VaultScreenState extends State<VaultScreen> {
                                       backgroundColor: Colors.transparent,
                                       side: const BorderSide(
                                           color: Colors.white24, width: 2),
-                                      minimumSize: const Size.fromHeight(48),
+                                      minimumSize: const Size.fromHeight(42),
                                     ),
                                     onPressed: () => _resolve(
                                         context, item, ItemStatus.bought),
@@ -215,17 +215,17 @@ class _CountdownRing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 72,
-      height: 72,
+      width: 60,
+      height: 60,
       child: Stack(
         alignment: Alignment.center,
         children: [
           SizedBox(
-            width: 72,
-            height: 72,
+            width: 60,
+            height: 60,
             child: CircularProgressIndicator(
               value: progress,
-              strokeWidth: 6,
+              strokeWidth: 5,
               strokeCap: StrokeCap.round,
               backgroundColor: Colors.white12,
               valueColor: AlwaysStoppedAnimation(
@@ -233,7 +233,7 @@ class _CountdownRing extends StatelessWidget {
             ),
           ),
           isDue
-              ? const Text('🔔', style: TextStyle(fontSize: 22))
+              ? const Text('🔔', style: TextStyle(fontSize: 19))
               : Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -241,9 +241,9 @@ class _CountdownRing extends StatelessWidget {
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
-                            fontSize: 18)),
+                            fontSize: 15)),
                     const Text('시간',
-                        style: TextStyle(color: Colors.white54, fontSize: 10)),
+                        style: TextStyle(color: Colors.white54, fontSize: 9)),
                   ],
                 ),
         ],
