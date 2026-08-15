@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/income_settings.dart';
 import '../models/shopping_item.dart';
 import '../services/app_state.dart';
 import '../theme/app_theme.dart';
@@ -16,37 +15,22 @@ class InputScreen extends StatefulWidget {
 
 class _InputScreenState extends State<InputScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _incomeController = TextEditingController();
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
 
-  IncomeType _incomeType = IncomeType.hourly;
   Category _category = Category.fashion;
-  bool _initializedIncome = false;
 
   @override
   void dispose() {
-    _incomeController.dispose();
     _nameController.dispose();
     _priceController.dispose();
     super.dispose();
   }
 
-  void _syncIncomeFromState(AppState appState) {
-    if (_initializedIncome) return;
-    _incomeType = appState.income.type;
-    _incomeController.text = appState.income.amount.toStringAsFixed(0);
-    _initializedIncome = true;
-  }
-
   void _submit(AppState appState) async {
     if (!_formKey.currentState!.validate()) return;
 
-    final incomeAmount = double.parse(_incomeController.text.replaceAll(',', ''));
-    final income = IncomeSettings(type: _incomeType, amount: incomeAmount);
-    await appState.setIncome(income);
-    final hourlyWage = toHourlyWage(income);
-
+    final hourlyWage = toHourlyWage(appState.income);
     final price = double.parse(_priceController.text.replaceAll(',', ''));
 
     if (!mounted) return;
@@ -65,7 +49,6 @@ class _InputScreenState extends State<InputScreen> {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
-    _syncIncomeFromState(appState);
     final level = appState.levelInfo;
 
     return Scaffold(
@@ -95,66 +78,30 @@ class _InputScreenState extends State<InputScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: AppColors.primarySoft,
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Row(
-                        children: [
-                          Text(level.emoji, style: const TextStyle(fontSize: 16)),
-                          const SizedBox(width: 4),
-                          Text('Lv.${level.level}',
-                              style: const TextStyle(
-                                  color: AppColors.primaryDark,
-                                  fontWeight: FontWeight.w800)),
-                        ],
+                    GestureDetector(
+                      onTap: () => appState.goToTab(3),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: AppColors.primarySoft,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(level.emoji, style: const TextStyle(fontSize: 16)),
+                            const SizedBox(width: 4),
+                            Text('Lv.${level.level}',
+                                style: const TextStyle(
+                                    color: AppColors.primaryDark,
+                                    fontWeight: FontWeight.w800)),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
-                SoftCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Text('💰  월급 또는 시급이 얼마예요?',
-                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-                      const SizedBox(height: 14),
-                      SegmentedButton<IncomeType>(
-                        segments: const [
-                          ButtonSegment(
-                              value: IncomeType.hourly, label: Text('시급')),
-                          ButtonSegment(
-                              value: IncomeType.monthly, label: Text('월급')),
-                        ],
-                        selected: {_incomeType},
-                        onSelectionChanged: (s) =>
-                            setState(() => _incomeType = s.first),
-                      ),
-                      const SizedBox(height: 12),
-                      TextFormField(
-                        controller: _incomeController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: _incomeType == IncomeType.hourly
-                              ? '시급 (원)'
-                              : '월급 (원)',
-                        ),
-                        validator: (v) {
-                          if (v == null || v.isEmpty) return '금액을 입력해주세요';
-                          if (double.tryParse(v.replaceAll(',', '')) == null) {
-                            return '숫자만 입력해주세요';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
                 SoftCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,

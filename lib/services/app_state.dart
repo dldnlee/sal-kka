@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' hide Category;
 import '../models/income_settings.dart';
 import '../models/shopping_item.dart';
 import 'gamification.dart';
@@ -60,6 +60,25 @@ class AppState extends ChangeNotifier {
 
   int get savedCount =>
       items.where((e) => e.status == ItemStatus.saved).length;
+
+  List<ShoppingItem> get boughtItems =>
+      items.where((e) => e.status == ItemStatus.bought).toList()
+        ..sort((a, b) =>
+            (b.decisionAt ?? b.createdAt).compareTo(a.decisionAt ?? a.createdAt));
+
+  double get totalSpent => boughtItems.fold(0.0, (sum, e) => sum + e.price);
+
+  int get boughtCount => boughtItems.length;
+
+  Map<Category, double> get spendingByCategory {
+    final map = <Category, double>{};
+    for (final item in boughtItems) {
+      map[item.category] = (map[item.category] ?? 0) + item.price;
+    }
+    final sorted = map.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    return Map.fromEntries(sorted);
+  }
 
   int get currentStreak {
     var streak = 0;

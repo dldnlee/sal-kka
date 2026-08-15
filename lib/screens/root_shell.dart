@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../services/app_state.dart';
 import 'dashboard_screen.dart';
 import 'input_screen.dart';
+import 'profile_screen.dart';
 import 'vault_screen.dart';
 
 class RootShell extends StatelessWidget {
@@ -16,6 +17,7 @@ class RootShell extends StatelessWidget {
       const InputScreen(),
       const VaultScreen(),
       const DashboardScreen(),
+      const ProfileScreen(),
     ];
 
     return Scaffold(
@@ -43,6 +45,8 @@ class RootShell extends StatelessWidget {
                     icon: Icon(Icons.inventory_2_outlined), label: '보관소'),
                 NavigationDestination(
                     icon: Icon(Icons.bar_chart_rounded), label: '정산'),
+                NavigationDestination(
+                    icon: Icon(Icons.person_outline), label: '프로필'),
               ],
             ),
           ),

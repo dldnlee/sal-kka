@@ -40,8 +40,12 @@ class RealityCheck {
 
 RealityCheck computeReality(double price, double hourlyWage) {
   final totalHours = hourlyWage > 0 ? price / hourlyWage : 0.0;
-  final hours = totalHours.floor();
-  final minutes = ((totalHours - hours) * 60).round();
+  var hours = totalHours.floor();
+  var minutes = ((totalHours - hours) * 60).round();
+  if (minutes == 60) {
+    hours += 1;
+    minutes = 0;
+  }
   final chickenCount = (price / chickenPrice).round().clamp(1, 999999);
   final coffeeCount = (price / coffeePrice).round().clamp(1, 999999);
   return RealityCheck(

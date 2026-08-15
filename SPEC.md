@@ -20,17 +20,17 @@
 [1. 입력 (Input)] ──► [2. 팩폭 리포트 (Reality Check)] ──► [3. 참기 보관소 (Cooling Vault)] ──► [4. 정산 (Outcome Log)]
 ```
 
+Bottom navigation has 4 tabs: 입력 · 보관소 · 정산 · 프로필 (the last one holds income settings + expense tracking, outside the core linear flow above).
+
 ### 2.1. Step 1: Input Screen (입력 화면)
 
-Keep entry friction as low as possible (under 10 seconds to submit):
+Kept as simple and low-friction as possible (under 10 seconds to submit) — income is set up once in the profile, not re-entered per item:
 
-* **월급 / 시급 입력 (Income):**
-  * Enter monthly salary (e.g., `3,000,000원`) OR hourly rate.
-  * *Default Option:* 2026 Korea Minimum Wage baseline (`10,030원/시급`).
 * **상품 정보 (Item Info):**
   * **상품명/링크 (Name or Link):** e.g., *"무신사 패딩"* or URL paste.
   * **가격 (Price):** Auto-formatted in Korean units (`150,000원` → `15만원`).
-  * **카테고리 (Category):** 배달음식 / 패션 / IT·가전 / 취미·게임 / 뷰티.
+  * **카테고리 (Category):** 배달음식 / 패션 / IT·가전 / 취미·게임 / 뷰티, shown as colorful topic-style chips.
+* The reality-check calculation reads hourly wage from the user's saved profile settings (see 2.5).
 
 ---
 
@@ -79,6 +79,18 @@ When the timer ends (or when the user reviews their vault):
   * Adds total to **"내가 아낀 총 금액" (Total Money Saved)** counter.
 * **"샀다" (Bought):**
   * Logs the purchase. Schedules a follow-up local notification 7 days later: *"잘 쓰고 있나요?"* (regret check).
+
+---
+
+### 2.5. 내 프로필 (My Profile)
+
+A dedicated tab for the things that don't belong on the low-friction home screen:
+
+* **소득 정보 (Income Settings):** 월급/시급 toggle + amount, saved to the user's profile and reused for every reality-check calculation (default: 2026 Korea Minimum Wage baseline, `10,030원/시급`).
+* **지출 현황 (Expense Tracking):** total spent and purchase count from **"샀다"** items — separate from the savings dashboard, so the user can see both sides (money protected *and* money actually spent).
+  * **절약 vs 지출:** a ratio bar comparing total saved to total spent.
+  * **카테고리별 지출:** spending broken down by category.
+  * **최근 지출 내역:** a short list of recent purchases.
 
 ---
 
