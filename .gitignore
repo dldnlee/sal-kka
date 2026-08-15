@@ -46,3 +46,6 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# MCP server config (contains a Supabase Personal Access Token — never commit)
+.mcp.json
